@@ -1,21 +1,7 @@
 <template>
-	<v-main app permanent>
+	<v-main app permanent :style="{background: $vuetify.theme.themes[theme].background}">
 		<v-container fluid>
-			<h1>
-				This is main!
-			</h1>
-			<h1>
-				This is main!
-			</h1>
-			<h1>
-				This is main!
-			</h1>
-			<h1>
-				This is main!
-			</h1>
-			<h1>
-				This is main!
-			</h1>
+			<router-view></router-view>
 		</v-container>
 	</v-main>
 </template>
@@ -32,9 +18,16 @@ export default {
 	data: () => ({
 	
 	}),
+	computed: {
+		theme() {
+			return this.$vuetify.theme.dark ? 'dark' : 'light'
+		}
+	}
 }
 </script>
 
 <style lang="sass" scoped>
+@import '../styles/imports'
+
 
 </style>

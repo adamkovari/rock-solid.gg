@@ -22,6 +22,11 @@ import Info from './components/Info.vue'
 import Main from './components/Main.vue'
 import Navbar from './components/Navbar.vue'
 import Sidebar from './components/Sidebar.vue'
+import Test from './components/views/Test.vue'
+
+const routes = {
+	'/test': Test
+}
 
 export default {
   components: {
@@ -31,7 +36,10 @@ export default {
 	  Main,
 	  Navbar,
 	  Sidebar,
+	  Test
   },
+	mounted() {
+	},
 	data: () => ({
 		icons: {
 			mdiAccount,

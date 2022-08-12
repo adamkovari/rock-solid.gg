@@ -5,7 +5,7 @@
 				flat
 				tile
 		>
-			<v-card-title class="teal">
+			<v-card-title class="">
 				<strong class="subheading">Get connected with us on social networks!</strong>
 				
 				<v-spacer></v-spacer>
@@ -24,7 +24,7 @@
 			</v-card-title>
 			
 			<v-card-text class="py-2 white--text text-center">
-				{{ new Date().getFullYear() }} — <strong>Vuetify</strong>
+				{{ new Date().getFullYear() }} — <strong>Rock-Solid.gg</strong>
 			</v-card-text>
 		</v-card>
 	</v-footer>
