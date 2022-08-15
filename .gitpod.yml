@@ -5,9 +5,9 @@ image:
   file: .gitpod.Dockerfile
 
 tasks:
-  before: export ROOT_URL=$(gp url 3000)
+- before: export ROOT_URL=$(gp url 3000) && export HMR_URL=$(gp url 3003)
   init: meteor npm install
-  command: echo "Open in Browser" && NO_HMR=1 meteor
+  command: echo "Open in Browser" && meteor
 ports:
 - port: 3000
   onOpen: open-browser
