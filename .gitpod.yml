@@ -5,9 +5,9 @@ image:
   file: .gitpod.Dockerfile
 
 tasks:
-- before: export ROOT_URL="http://localhost:8080"
+- before: export ROOT_URL="http://localhost:3000"
   init: meteor npm install
-  command: echo "Open in Desktop VSCode" && meteor run --port 8080
+  command: echo "Open in Desktop VSCode" && meteor run --port 3000
 ports:
 # - port: 3000
   # onOpen: open-browser
