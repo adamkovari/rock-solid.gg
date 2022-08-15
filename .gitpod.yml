@@ -7,10 +7,10 @@ image:
 tasks:
 - before: export ROOT_URL="http://localhost:3000"
   init: meteor npm install
-  command: echo "Open in Desktop VSCode" && NO_HMR=1 meteor run --port 3000
+  command: echo "Open in Desktop VSCode" && NO_HMR=1 meteor
 ports:
-# - port: 3000
-  # onOpen: open-browser
+- port: 3000
+  onOpen: open-browser
 - port: 3001 # mongo db
   onOpen: ignore
 - port: 3000-10000
