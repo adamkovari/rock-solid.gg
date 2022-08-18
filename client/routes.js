@@ -28,7 +28,7 @@ RouterFactory.configure(factory => {
 			path: '/settings',
 			name: 'settings',
 			component: Settings
-		}
+		},
 	])
 })
 

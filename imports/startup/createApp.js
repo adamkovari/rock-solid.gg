@@ -6,16 +6,17 @@ import routerFactory  from '../../client/routes'
 
 import App from '../ui/App.vue'
 
-function createApp () {
+export function createApp () {
 	const router = routerFactory.create();
 
-	return {
-		app: new Vue({
-			router,
-			vuetify,
-			render: h => h(App),
-		}).$mount('#app'),
-	}
-}
+	const app = new Vue({
+		router,
+		vuetify,
+		render: h => h(App),
+	})
 
-export default createApp
+	return {
+		app,
+		router,
+	};
+}

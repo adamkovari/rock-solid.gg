@@ -26,6 +26,11 @@ docker run -it -p 3000:3000 meteor-rock-solid
 meteor deploy
 ```
 
+#### 4. UI
+[Figma docs](https://www.figma.com/file/zTD3BTXUBrWkWFcaPf1JA7/rock-solid.gg?node-id=0%3A1)
+
+#### 5. Conception
+[Confluence](https://rock-solid.atlassian.net/wiki/spaces/ROCKSOLIDG/pages/262145/Alapkoncepci)
 
 ### Sources:
 1. [Build a docker image](https://dockerize.io/guides/docker-meteor-guide)

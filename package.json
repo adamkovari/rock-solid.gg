@@ -9,11 +9,14 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.17.9",
+    "axios": "^0.27.2",
     "ignore-styles": "^5.0.1",
     "meteor-node-stubs": "^1.2.1",
     "vue": "^2.6.14",
     "vue-meteor-tracker": "^2.0.0-beta.5",
-    "vue-router": "^3.0.0"
+    "vue-router": "^3.0.0",
+    "vue-server-renderer": "^2.7.8",
+    "vuetify": "^2.6.9"
   },
   "meteor": {
     "mainModule": {
@@ -23,7 +26,6 @@
     "testModule": "tests/main.js"
   },
   "devDependencies": {
-    "@mdi/js": "^7.0.96",
-    "vuetify": "^2.6.8"
+    "@mdi/js": "^7.0.96"
   }
 }

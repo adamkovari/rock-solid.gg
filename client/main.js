@@ -1,5 +1,9 @@
-import CreateApp from '../imports/startup/createApp'
+import { createApp } from '../imports/startup/createApp'
 
 Meteor.startup(() => {
-  CreateApp()
+
+  const { app } = createApp()
+
+  app.$mount('#app')
+
 })
