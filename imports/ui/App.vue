@@ -1,8 +1,11 @@
 <template>
   <v-app>
 	  <Sidebar />
+	  
 	  <Navbar />
+	  
 	  <Main />
+	  
 	  <Footing />
   </v-app>
 </template>
@@ -59,3 +62,4 @@ body
 	color: $dark-primary
 
 </style>
+
