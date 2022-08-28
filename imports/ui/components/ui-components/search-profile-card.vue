@@ -71,11 +71,15 @@ export default {
 				})
 				
 			 */
-			this.profileIcon = "http://ddragon.leagueoflegends.com/cdn/12.15.1/img/profileicon/" + this.account.profileIconId + ".png";
+			Meteor.call("getProfileIconAssetById",this.account.profileIconId, "profileicon", (error, result) => {
+				this.profileIcon = result;
+			});
 			})
 	},
 	updated() {
-		this.profileIcon = "http://ddragon.leagueoflegends.com/cdn/12.15.1/img/profileicon/" + this.account.profileIconId + ".png";
+		Meteor.call("getProfileIconAssetById",this.account.profileIconId, "profileicon", (error, result) => {
+			this.profileIcon = result;
+		});
 	}
 }
 </script>

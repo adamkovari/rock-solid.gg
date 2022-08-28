@@ -21,6 +21,18 @@
 				<search-current-game-card v-if="this.currentGame" />
 			</v-col>
 		</v-row>
+		
+		<v-spacer></v-spacer>
+		
+		<v-row justify="center" v-if="this.matches.length">
+			<h3>
+				Previous Matches:
+			</h3>
+			
+			<v-col cols="11" v-for="(match, index) in this.matches">
+				<search-previous-match-card :match="match" :index="index"  :account="getAccount"/>
+			</v-col>
+		</v-row>
 	</v-container>
 </template>
 
@@ -29,6 +41,8 @@ import axios from "axios";
 import InputSearch from "../ui-components/input-search";
 import SearchProfileCard from "../ui-components/search-profile-card";
 import SearchCurrentGameCard from "../ui-components/search-current-game-card";
+import SearchPreviousMatchCard from "../ui-components/search-previous-match-card";
+
 import {
 	mdiMagnify
 } from '@mdi/js'
@@ -44,49 +58,20 @@ export default {
 		InputSearch,
 		SearchProfileCard,
 		SearchCurrentGameCard,
+		SearchPreviousMatchCard,
 	},
 	data () {
 		return {
 			account: null,
 			currentGame: null,
+			matchIds: null,
+			matches: [],
 			icons: {
 				mdiMagnify,
 			},
 		}
 	},
-	methods: {
-		searchSummoner: async function (summonerName, region) {
-			console.log("SYSTEM - summonerName:" + summonerName + " region: " + region);
-			await this.sendSearchSummonerRequest(summonerName, region);
-			this.sendCurrentGameInfoBy(this.account.id, region)
-		},
-		sendSearchSummonerRequest: async function (summonerName, region) {
-			let params = { "summonerName" : summonerName, "region": region }
-			//console.log(reqSummonerName)
-			return new Promise((resolve, reject) => {
-				Meteor.call('getSummonerbySummonerName', params, async (error, result) => {
-					if(error) {
-						return reject(error)
-					}
-					this.account = result;
-					return resolve(result)
-				});
-			})
-		},
-		sendCurrentGameInfoBy: function ( encryptedSummonerId, region) {
-			let params = { "encryptedSummonerId" : encryptedSummonerId, "region": region}
-			//console.log(encryptedSummonerId)
-			Meteor.call("getCurrentGameInfoBySummonerId", params, (error, result) => {
-				if( result.status.status_code === 404)
-					return "Hiba";
-				else
-					this.currentGame = result;
-			});
-		}
-	},
 	mounted() {
-		
-		
 		//lol/summoner/v4/summoners/by-name/{summonerName}
 		
 		/*
@@ -110,7 +95,71 @@ export default {
 		}
 		
 		 */
-	}
+	},
+	computed: {
+		getAccount: function() {
+			return this.account;
+		}
+	},
+	methods: {
+		searchSummoner: async function (summonerName, region) {
+			console.log("SYSTEM - summonerName:" + summonerName + " region: " + region);
+			await this.sendSearchSummonerRequest(summonerName, region);
+			this.sendCurrentGameInfoBySummonerId(this.account.id, region);
+			this.matchIds = await this.sendGetListOfMatchesByPUUID(this.account.puuid, region);
+			await this.sendGetMatchesByMatchIds(this.matchIds, region);
+		},
+		sendSearchSummonerRequest: async function (summonerName, region) {
+			let params = { "summonerName" : summonerName, "region": region }
+			//console.log(reqSummonerName)
+			return new Promise((resolve, reject) => {
+				Meteor.call('getSummonerbySummonerName', params, async (error, result) => {
+					if(error) {
+						return reject(error)
+					}
+					this.account = result;
+					return resolve(result)
+				});
+			})
+		},
+		sendCurrentGameInfoBySummonerId: function ( encryptedSummonerId, region) {
+			let params = { "encryptedSummonerId" : encryptedSummonerId, "region": region}
+			//console.log(encryptedSummonerId)
+			Meteor.call("getCurrentGameInfoBySummonerId", params, (error, result) => {
+				if( result.status.status_code === 404)
+					return "Hiba";
+				else
+					this.currentGame = result;
+			});
+		},
+		sendGetListOfMatchesByPUUID: async function (encryptedPUUID, region) {
+			let params = { "encryptedPUUID" : encryptedPUUID, "region": region}
+			//console.log(encryptedPUUID)
+			return new Promise((resolve, reject) => {
+				Meteor.call("getListOfMatchesByPUUID", params, (error, result) => {
+					if (error) {
+						return reject(error)
+					}
+					return resolve(result);
+				});
+			});
+		},
+		sendGetMatchesByMatchIds: async function (matchIds, region) {
+			this.matches = [];
+			for (const [index, matchId] of matchIds.entries()) {
+				new Promise((resolve, reject) => {
+					let params = { "matchId" : matchId, "region": region }
+					Meteor.call("getMatchByMatchId", params, (error, result) => {
+						if (error) {
+							return reject(error)
+						}
+						this.matches.splice(index,0,result);
+						return resolve(result);
+					});
+				});
+			}
+		}
+},
 }
 </script>
 

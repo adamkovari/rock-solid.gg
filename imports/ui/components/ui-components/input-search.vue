@@ -2,7 +2,7 @@
 	<v-container fluid>
 		<v-row align="center">
 			<v-col
-				cols="2"
+				cols="3"
 			>
 				<v-select
 						v-model="region"
@@ -15,7 +15,7 @@
 			</v-col>
 			
 			<v-col
-				cols="10"
+				cols="9"
 			>
 				<v-text-field
 						:label="label"
@@ -23,6 +23,7 @@
 						v-model="summonerName"
 						:append-icon="icons.mdiMagnify"
 						@click:append="searchSummoner"
+						v-on:keyup.enter="searchSummoner"
 						hide-details="auto"
 				>
 				
