@@ -5,9 +5,15 @@
     "start": "meteor run",
     "test": "meteor test --once --driver-package meteortesting:mocha",
     "test-app": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",
-    "visualize": "meteor --production --extra-packages bundle-visualizer"
+    "visualize": "meteor --production --extra-packages bundle-visualizer",
+    "lint": "eslint .",
+    "pretest": "npm run lint --silent"
+  },
+  "eslintConfig": {
+    "extends": "@meteorjs/eslint-config-meteor"
   },
   "dependencies": {
+    "@babel/plugin-transform-typescript": "^7.18.12",
     "@babel/runtime": "^7.17.9",
     "axios": "^0.27.2",
     "ignore-styles": "^5.0.1",
@@ -16,6 +22,8 @@
     "vue-meteor-tracker": "^2.0.0-beta.5",
     "vue-router": "^3.0.0",
     "vue-server-renderer": "^2.7.8",
+    "vue-toast-notification": "^0.6.3",
+    "vue-toastification": "^1.7.14",
     "vuetify": "^2.6.9"
   },
   "meteor": {
@@ -26,6 +34,11 @@
     "testModule": "tests/main.js"
   },
   "devDependencies": {
-    "@mdi/js": "^7.0.96"
+    "@mdi/js": "^7.0.96",
+    "@tsconfig/node10": "^1.0.9",
+    "@tsconfig/node12": "^1.0.11",
+    "@tsconfig/recommended": "^1.0.1",
+    "babel-plugin-syntax-jsx": "^6.18.0",
+    "babel-plugin-transform-vue-jsx": "^3.7.0"
   }
 }

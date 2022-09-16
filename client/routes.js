@@ -15,7 +15,7 @@ RouterFactory.configure(factory => {
 	// Simple routes
 	factory.addRoutes([
 		{
-			path: '/search',
+			path: '/',
 			name: 'search',
 			component: Search,
 		},

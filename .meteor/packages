@@ -13,7 +13,7 @@ standard-minifier-css@1.8.1   # CSS minifier run for production mode
 standard-minifier-js@2.8.0    # JS minifier run for production mode
 es5-shim@4.8.0                # ECMAScript 5 compatibility for older browsers
 ecmascript              # Enable ECMAScript2015+ syntax in app code
-typescript@4.5.4              # Enable TypeScript syntax in .ts and .tsx modules
+typescript              # Enable TypeScript syntax in .ts and .tsx modules
 shell-server@0.5.0            # Server-side component of the `meteor shell` command
 
 tracker@1.2.0                 # Dependency tracker to allow reactive callbacks
@@ -30,3 +30,4 @@ server-render
 ostrio:flow-router-extra
 fetch
 okgrow:promise
+nathantreid:vue-typescript-babel

@@ -37,20 +37,33 @@ Meteor.methods({
 		return Meteor.settings.public.assetURL + "map" + "/map" + id + ".png";
 	},
 
+	getChampionIconAssetById(name) {
+		return Meteor.settings.public.assetURL + "champion/" + name + ".png";
+	},
+
 	/*
 	 * @param {string} summonerName
 	 * @param {string} region
 	 */
 	getSummonerbySummonerName: function ({summonerName: summonerName, region: region}) {
-		console.log("SERVER METHOD: summonerName: " + summonerName + " region: " + region )
-
+		//console.log("SERVER METHOD: summonerName: " + summonerName + " region: " + region )
 		let request = gerCorsServerIfDevelopment() + getLolServerURLByRegion(region) + 'summoner/v4/summoners/by-name/' + encodeURIComponent(summonerName);
+		console.log(request)
 
-		return getSummonerBySummonerName(request)
-			.then((results) => {
+		return sendRequestToLolAPI(request).then((results) => {
+			console.log(results);
+			return results
+		}).catch((error) => {
+			throw new Meteor.Error(error.status.status_code, error.status.message);
+		})
+
+		/*
+		return sendRequestToLolAPI(request).then((results) => {
 				 console.log(results);
 				 return results })
 			.catch((error) => { return error })
+
+		 */
 	},
 
 	/*
@@ -60,11 +73,22 @@ Meteor.methods({
 	getCurrentGameInfoBySummonerId: function ({encryptedSummonerId: encryptedSummonerId, region: region}) {
 		//console.log("SERVER METHOD: encryptedSummonerId(" + encryptedSummonerId + ")")
 		let request = gerCorsServerIfDevelopment() + getLolServerURLByRegion(region) + 'spectator/v4/active-games/by-summoner/' + encryptedSummonerId;
+		console.log(request)
 
-		return getCurrentGameInfoBySummonerId(request)
-			.then((results) => { //console.log(results);
-				 return results })
-			.catch((error) => { return error })
+		return sendRequestToLolAPI(request).then((result) => {
+			return result;
+		}).catch((error) => {
+			throw new Meteor.Error(error.status.status_code, error.status.message);
+		})
+
+		/*
+		return getCurrentGameInfoBySummonerId(request).then((result) => {
+			return result
+		}).catch((error) => {
+			throw new Meteor.Error(error.error, error.message);
+		})
+
+		 */
 	},
 
 	/*
@@ -74,42 +98,91 @@ Meteor.methods({
 	getListOfMatchesByPUUID: function ({encryptedPUUID: encryptedPUUID, region: region, count: count=10}) {
 		//console.log("SERVER METHOD: encryptedPUUID(" + encryptedPUUID + ")")
 		let request = gerCorsServerIfDevelopment() + getLolServerRegionURLByRegion(region) + 'match/v5/matches/by-puuid/' +  encryptedPUUID + '/ids?count=' + count;
+		console.log(request)
 
+		return sendRequestToLolAPI(request).then((result) => {
+			return result;
+		}).catch((error) => {
+			throw new Meteor.Error(error.status.status_code, error.status.message);
+		})
+
+		/*
 		return getListOfMatchesByPUUID(request)
 			.then((results) => { //console.log(results);
 				return results })
 			.catch((error) => { return error })
+
+		 */
 	},
 
+	/*
+	 * @param {string} matchId
+	 * @param {string} region
+	 */
 	getMatchByMatchId: function ({matchId: matchId, region: region}) {
 		//console.log("SERVER METHOD: matchId(" + matchId + ")")
 		let request = gerCorsServerIfDevelopment() + getLolServerRegionURLByRegion(region) + 'match/v5/matches/' +  matchId;
+		console.log(request)
 
+		return sendRequestToLolAPI(request).then((result) => {
+			return result;
+		}).catch((error) => {
+			throw new Meteor.Error(error.status.status_code, error.status.message);
+		})
+
+		/*
 		return getMatchByMatchId(request)
 			.then((results) => { //console.log(results);
 				 return results })
 			.catch((error) => { return error })
+
+		 */
+	},
+
+	/*
+     * @param {string} encryptedSummonerId
+	 * @param {string} region
+	 */
+	getLeagueEntriesBySummonerId: function ({encryptedSummonerId: encryptedSummonerId, region: region}) {
+		//console.log("SERVER METHOD: encryptedSummonerId(" + encryptedSummonerId + ")")
+		let request = gerCorsServerIfDevelopment() + getLolServerURLByRegion(region) + 'league/v4/entries/by-summoner/' + encryptedSummonerId;
+		console.log(request)
+
+		return sendRequestToLolAPI(request).then((results) => {
+			console.log(results);
+			return results
+		}).catch((error) => {
+			throw new Meteor.Error(error.status.status_code, error.status.message);
+		})
 	}
 })
 
+//***DEPRECATED***
 //lol/summoner/v4/summoners/by-name/{summonerName}
 async function getSummonerBySummonerName (url) {
 	console.log(url);
 	return sendRequestToLolAPI(url)
 }
 
+//***DEPRECATED***
 //lol/spectator/v4/active-games/by-summoner/{encryptedSummonerId}
 async function getCurrentGameInfoBySummonerId (url) {
 	console.log(url)
-	return sendRequestToLolAPI(url)
+	return sendRequestToLolAPI(url).then((result) => {
+		return result;
+	}).catch((error) => {
+		throw new Meteor.Error(error.status.status_code, error.status.message);
+	})
 }
 
+//***DEPRECATED***
 //lol/match/v5/matches/by-puuid/{puuid}/ids
 async function getListOfMatchesByPUUID (url) {
 	console.log(url)
 	return sendRequestToLolAPI(url)
 }
 
+//***DEPRECATED***
 //lol/match/v5/matches/{matchId}
 async function getMatchByMatchId (url) {
 	console.log(url)
@@ -130,6 +203,7 @@ function getLolServerURLByRegion(region = 'br1') {
 }
 
 function getLolServerRegionURLByRegion(region = 'br1') {
+	//console.log(region)
 	region = region.toLowerCase();
 	if(region.includes('br'))
 		region = Meteor.settings.public.regions.BR
@@ -173,6 +247,8 @@ async function sendRequestToLolAPI(url) {
 				serverPromise.json().then((json) => reject(json));
 			}
 		}).catch(async (error) => {
+			//unhandled cors error
+			console.log(error)
 			reject(error)
 		});
 

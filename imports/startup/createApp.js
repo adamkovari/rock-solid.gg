@@ -4,6 +4,8 @@ import vuetify from './plugins/vuetify'
 
 import routerFactory  from '../../client/routes'
 
+import "./plugins/vueToastification";
+
 import App from '../ui/App.vue'
 
 export function createApp () {
